@@ -4,6 +4,7 @@ from .venus_attack_generator import create_attack
 import numpy as np
 import logging
 import copy
+import datetime
 
 
 def attack(
@@ -22,6 +23,7 @@ def attack(
     # Logging
 
     logging.debug("Attack #{}".format(index))
+    print("{}: Attack #{}".format(datetime.datetime.now(), index))
 
     # Copying shared resources
 
