@@ -75,30 +75,25 @@ if __name__ == "__main__":
             "Parameters: {} ({}/{})".format(weight, i + 1, n_random_parameters)
         )
 
-        parameter_objectives = []
+        # Copy the initial states n_repetition times
+        X_initial_states = np.repeat(X_initial_states, n_repetition, axis=0)
 
-        # Repetition loop
-        for j in range(n_repetition):
-            logging.info("Round: {}/{}".format(j + 1, n_repetition))
-
-            # Initial state loop (threaded)
-            initial_states_objectives = Parallel(n_jobs=n_jobs)(
-                delayed(attack)(
-                    index,
-                    initial_state,
-                    weight,
-                    model,
-                    scaler,
-                    encoder,
-                    n_generation,
-                    n_offsprings,
-                    pop_size,
-                    threshold,
-                )
-                for index, initial_state in enumerate(X_initial_states)
+        # Initial state loop (threaded)
+        parameter_objectives = Parallel(n_jobs=n_jobs)(
+            delayed(attack)(
+                index,
+                initial_state,
+                weight,
+                model,
+                scaler,
+                encoder,
+                n_generation,
+                n_offsprings,
+                pop_size,
+                threshold,
             )
-            # Add objective to list
-            parameter_objectives.extend(initial_states_objectives)
+            for index, initial_state in enumerate(X_initial_states)
+        )
 
         # Calculate success rate
         parameter_objectives = np.array(parameter_objectives)
