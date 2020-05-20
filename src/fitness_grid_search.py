@@ -7,10 +7,10 @@ import logging
 import numpy as np
 from joblib import Parallel, delayed, load
 import pandas as pd
-from utils.venus_encoder import VenusEncoder
-from utils.venus_attack import attack
+from coeva2.venus_encoder import VenusEncoder
+from coeva2.venus_attack import attack
 from utils import Pickler
-from utils import venus_constraints
+from coeva2 import venus_constraints
 
 logging.basicConfig(level=logging.DEBUG)
 
