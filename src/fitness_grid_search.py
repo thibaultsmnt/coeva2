@@ -16,10 +16,10 @@ logging.basicConfig(level=logging.DEBUG)
 
 # ----- PARAMETERS
 
-input_dir = "../../../out/2020-05-20-venus"
-output_dir = "../../../out/venus_attacks/coeva2_all_grid_test"
+input_dir = "../out/target_model"
+output_dir = "../out/venus_attacks/coeva2_all_random_fitness"
 threshold = 0.24
-n_jobs = 6
+n_jobs = -1
 
 n_generation = 25
 pop_size = 16

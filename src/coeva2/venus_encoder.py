@@ -10,7 +10,7 @@ class VenusEncoder:
         self.one_hot_position = np.array([14])
         self.one_hot_size = np.array([14])
         self.one_hot_encoders = [OneHotEncoder(sparse=False)]
-        features = pd.read_csv("../../../data/lcld/lcld_venus_dtypes.csv")
+        features = pd.read_csv("../data/lcld/lcld_venus_dtypes.csv")
         self.features = features.drop(features.tail(1).index)
         self.mask = self.features["mutable"].to_numpy()
         for i, encoder in enumerate(self.one_hot_encoders):

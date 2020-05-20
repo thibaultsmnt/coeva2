@@ -16,8 +16,8 @@ from utils import venus_constraints
 
 # ----- PARAMETERS
 
-output_dir = "../../../out/2020-05-20-venus"
-dataset_path = "../../../data/lcld/lcld_venus.csv"
+output_dir = "../out/target_model""
+dataset_path = "../data/lcld/lcld_venus.csv"
 
 # ----- CONSTANT
 
