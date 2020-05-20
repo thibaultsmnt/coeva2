@@ -1,11 +1,11 @@
 #!/bin/bash -l
 
 #SBATCH -o %x_%j.out
-#SBATCH -n 2
+#SBATCH -n 4
 #SBATCH -p batch
-#SBATCH --time=0-0:3:00
+#SBATCH --time=0-0:10:00
 #SBATCH --qos=qos-besteffort
-#SBATCH -J FINESS-SEARCH
+#SBATCH -J FITNESS-RANDOM-SEARCH
 #SBATCH --mail-type=end,fail
 #SBATCH --mail-user=thibault.simonetto.001@student.uni.lu
 
@@ -14,6 +14,6 @@ module purge
 module restore python3
 source ../adv/bin/activate
 
-python fitness_grid_search.py "$@"
+python fitness_random_search.py "$@"
 # Your more useful application can be started below!
 #  dos2unix job.sh sbatch job.sh
