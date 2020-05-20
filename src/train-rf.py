@@ -12,7 +12,7 @@ from utils import Datafilter
 from joblib import dump
 
 from sklearn.preprocessing import MinMaxScaler
-from utils import venus_constraints
+from coeva2 import venus_constraints
 
 # ----- PARAMETERS
 
