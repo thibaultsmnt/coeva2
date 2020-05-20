@@ -1,18 +1,13 @@
 # coeva2
 
-## Create the environment
+## Create the environment on HPC
 
-**HPC only**
 
 ```
 module purge
 module restore python3
-```
-
-**All**
-
-```
 virtualenv adv
 chmod +x adv/bin/activate
 . ./adv/bin/activate
+pip install -r requirements.txt
 ```
