@@ -22,12 +22,12 @@ output_dir = "../out/venus_attacks/coeva2_all_random_fitness"
 threshold = 0.24
 n_jobs = -1
 
-n_generation = 1000
-pop_size = 16
-n_offsprings = 8
+n_generation = 2500
+pop_size = 160
+n_offsprings = 80
 
 n_random_parameters = 2
-n_initial_state = 10
+n_initial_state = 2
 n_repetition = 2
 
 # ----- CONSTANTS
