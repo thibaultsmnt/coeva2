@@ -4,6 +4,7 @@ import warnings
 warnings.simplefilter(action="ignore", category=FutureWarning)
 import logging
 
+from pathlib import Path
 import numpy as np
 from joblib import Parallel, delayed, load
 import pandas as pd
@@ -61,6 +62,8 @@ if constraints_violated > 0:
     logging.error("Constraints violated {} time(s).".format(constraints_violated))
     exit(1)
 
+Path(output_dir).mkdir(parents=True, exist_ok=True)
+
 if __name__ == "__main__":
 
     # Parameter loop
@@ -106,4 +109,4 @@ if __name__ == "__main__":
         # Save results
         results = np.concatenate((weight, success_rate))
         results_df = pd.DataFrame(results.reshape(1, -1), columns=out_columns)
-        results_df.to_csv("parameters_{}.csv".format(i), index=False)
+        results_df.to_csv(output_dir + "/parameters_{}.csv".format(i), index=False)
