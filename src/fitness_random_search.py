@@ -64,6 +64,9 @@ if constraints_violated > 0:
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
+# Copy the initial states n_repetition times
+X_initial_states = np.repeat(X_initial_states, n_repetition, axis=0)
+
 if __name__ == "__main__":
 
     # Parameter loop
@@ -74,9 +77,6 @@ if __name__ == "__main__":
         logging.info(
             "Parameters: {} ({}/{})".format(weight, i + 1, n_random_parameters)
         )
-
-        # Copy the initial states n_repetition times
-        X_initial_states = np.repeat(X_initial_states, n_repetition, axis=0)
 
         # Initial state loop (threaded)
         parameter_objectives = Parallel(n_jobs=n_jobs)(
