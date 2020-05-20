@@ -16,7 +16,7 @@ from utils import venus_constraints
 
 # ----- PARAMETERS
 
-output_dir = "../out/target_model""
+output_dir = "../out/target_model"
 dataset_path = "../data/lcld/lcld_venus.csv"
 
 # ----- CONSTANT
