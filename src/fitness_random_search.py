@@ -1,5 +1,6 @@
 import pickle
 import warnings
+from random import random
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 import logging
@@ -30,6 +31,9 @@ n_offsprings = 80
 n_random_parameters = 1
 n_initial_state = 1
 n_repetition = 1
+
+random.seed(0)
+np.random.seed(0)
 
 # ----- CONSTANTS
 
