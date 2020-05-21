@@ -20,7 +20,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 input_dir = "../out/target_model"
 output_dir = "../out/venus_attacks/coeva2_all_random_fitness_1_be"
-file_out_offset = 0
+seed = 0
+offset = 2
 threshold = 0.24
 n_jobs = -1
 
@@ -32,8 +33,6 @@ n_random_parameters = 1
 n_initial_state = 1000
 n_repetition = 1
 
-random.seed(0)
-np.random.seed(0)
 
 # ----- CONSTANTS
 
@@ -66,6 +65,14 @@ constraints_violated = (constraints > 0).sum()
 if constraints_violated > 0:
     logging.error("Constraints violated {} time(s).".format(constraints_violated))
     exit(1)
+
+# Set random seed
+random.seed(seed)
+np.random.seed(seed)
+
+# Skip the weight that have been done already
+for i in range(offset):
+    weight = np.absolute(np.random.normal(size=4))
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -110,5 +117,5 @@ if __name__ == "__main__":
         results = np.concatenate((weight, success_rate))
         results_df = pd.DataFrame(results.reshape(1, -1), columns=out_columns)
         results_df.to_csv(
-            output_dir + "/parameters_{}.csv".format(file_out_offset + i), index=False
+            output_dir + "/parameters_{}.csv".format(offset + i), index=False
         )
