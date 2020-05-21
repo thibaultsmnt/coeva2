@@ -22,7 +22,7 @@ logging.basicConfig(level=logging.DEBUG)
 input_dir = "../out/target_model"
 output_dir = "../out/venus_attacks/coeva2_all_random_fitness_1_be"
 seed = 0
-offset = 1
+offset = 2
 threshold = 0.24
 n_jobs = -1
 
@@ -30,7 +30,7 @@ n_generation = 2500
 pop_size = 160
 n_offsprings = 80
 
-n_random_parameters = 1
+n_random_parameters = 4
 n_initial_state = 1000
 n_repetition = 1
 
