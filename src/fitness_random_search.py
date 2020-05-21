@@ -13,6 +13,7 @@ from coeva2.venus_encoder import VenusEncoder
 from coeva2.venus_attack import attack
 from utils import Pickler
 from coeva2 import venus_constraints
+import time
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -84,6 +85,8 @@ if __name__ == "__main__":
     # Parameter loop
     for i in range(n_random_parameters):
 
+        t0 = time.clock()
+
         # Randomly generate weight
         weight = np.absolute(np.random.normal(size=4))
         logging.info(
@@ -119,3 +122,5 @@ if __name__ == "__main__":
         results_df.to_csv(
             output_dir + "/parameters_{}.csv".format(offset + i), index=False
         )
+
+        logging.info("Attack #{} in {}s".format(i, time.clock() - t0))
