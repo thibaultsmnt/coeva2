@@ -5,7 +5,6 @@ import numpy as np
 import logging
 import copy
 import datetime
-import time
 
 
 def attack(
@@ -21,20 +20,12 @@ def attack(
     threshold,
 ):
 
-    # Logging
-
-    logging.debug("Attack #{}".format(index))
-    print("{}: Attack #{}".format(datetime.datetime.now(), index))
-
     # Copying shared resources
-
-    t0 = time.clock()
 
     weight = copy.deepcopy(weight)
     model = copy.deepcopy(model)
     scaler = copy.deepcopy(scaler)
     encoder = copy.deepcopy(encoder)
-    print("Copy process time {}".format(time.clock() - t0))
 
     # Create attack
 
@@ -49,24 +40,18 @@ def attack(
         pop_size,
     )
 
-    print("Create attack process time {}".format(time.clock() - t0))
-
     # Execute attack
 
     result = minimize(problem, algorithm, termination, verbose=0, save_history=False,)
-    print("Execute attack process time {}".format(time.clock() - t0))
 
     # Calculate objectives
 
-    objectives = calculate_objectives(
-        result, pop_size, encoder, initial_state, threshold, model
-    )
-    print("Calculate objectives process time {}".format(time.clock() - t0))
+    objectives = calculate_objectives(result, encoder, initial_state, threshold, model)
 
     return objectives
 
 
-def calculate_objectives(result, pop_size, encoder, initial_state, threshold, model):
+def calculate_objectives(result, encoder, initial_state, threshold, model):
 
     CVs = np.array(list(map(lambda x: x.CV[0], result.pop)))
     Xs = np.array(list(map(lambda x: x.X, result.pop))).astype(np.float64)
