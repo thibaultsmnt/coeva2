@@ -29,7 +29,7 @@ pop_size = 160
 n_offsprings = 80
 
 n_random_parameters = 1
-n_initial_state = 1000
+n_initial_state = 48
 n_repetition = 1
 
 random.seed(0)

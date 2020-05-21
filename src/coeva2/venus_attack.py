@@ -4,7 +4,7 @@ from .venus_attack_generator import create_attack
 import numpy as np
 import logging
 import copy
-import datetime
+import time
 
 
 def attack(
@@ -19,7 +19,7 @@ def attack(
     pop_size,
     threshold,
 ):
-
+    t0 = time.clock()
     # Copying shared resources
 
     weight = copy.deepcopy(weight)
@@ -48,6 +48,7 @@ def attack(
 
     objectives = calculate_objectives(result, encoder, initial_state, threshold, model)
 
+    print("Attack #{} in {}s".format(index, time.clock() - t0))
     return objectives
 
 
