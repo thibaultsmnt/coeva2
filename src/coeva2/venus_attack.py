@@ -34,7 +34,7 @@ def attack(
     model = copy.deepcopy(model)
     scaler = copy.deepcopy(scaler)
     encoder = copy.deepcopy(encoder)
-    print("Copy process time {}".format(time.clock()))
+    print("Copy process time {}".format(time.clock() - t0))
 
     # Create attack
 
@@ -49,19 +49,19 @@ def attack(
         pop_size,
     )
 
-    print("Create attack process time {}".format(time.clock()))
+    print("Create attack process time {}".format(time.clock() - t0))
 
     # Execute attack
 
     result = minimize(problem, algorithm, termination, verbose=0, save_history=False,)
-    print("Execute attack process time {}".format(time.clock()))
+    print("Execute attack process time {}".format(time.clock() - t0))
 
     # Calculate objectives
 
     objectives = calculate_objectives(
         result, pop_size, encoder, initial_state, threshold, model
     )
-    print("Calculate objectives process time {}".format(time.clock()))
+    print("Calculate objectives process time {}".format(time.clock() - t0))
 
     return objectives
 
