@@ -19,6 +19,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 input_dir = "../out/target_model"
 output_dir = "../out/venus_attacks/coeva2_all_random_fitness"
+file_out_offset = 0
 threshold = 0.24
 n_jobs = -1
 
@@ -104,4 +105,6 @@ if __name__ == "__main__":
         # Save results
         results = np.concatenate((weight, success_rate))
         results_df = pd.DataFrame(results.reshape(1, -1), columns=out_columns)
-        results_df.to_csv(output_dir + "/parameters_{}.csv".format(i), index=False)
+        results_df.to_csv(
+            output_dir + "/parameters_{}.csv".format(file_out_offset + i), index=False
+        )
