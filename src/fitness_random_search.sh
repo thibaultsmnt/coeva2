@@ -5,7 +5,7 @@
 #SBATCH -n 24
 #SBATCH -p batch
 #SBATCH --time=0-0:40:00
-#SBATCH --qos=qos-batch
+#SBATCH --qos=qos-besteffort
 #SBATCH -J FITNESS-RANDOM-SEARCH
 #SBATCH --mail-type=end,fail
 #SBATCH --mail-user=thibault.simonetto.001@student.uni.lu

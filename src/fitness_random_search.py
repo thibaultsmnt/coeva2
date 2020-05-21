@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.DEBUG)
 # ----- PARAMETERS
 
 input_dir = "../out/target_model"
-output_dir = "../out/venus_attacks/coeva2_all_random_fitness_1"
+output_dir = "../out/venus_attacks/coeva2_all_random_fitness_1_be"
 file_out_offset = 0
 threshold = 0.24
 n_jobs = -1
