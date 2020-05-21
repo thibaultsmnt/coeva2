@@ -59,10 +59,12 @@ def attack(
 
     # Calculate objectives
 
-    return calculate_objectives(
+    objectives = calculate_objectives(
         result, pop_size, encoder, initial_state, threshold, model
     )
     print('Calculate objectives process time {}'.format(time.clock()))
+    
+    return objectives
 
 
 
