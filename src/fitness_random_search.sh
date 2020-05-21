@@ -1,9 +1,9 @@
 #!/bin/bash -l
 
 #SBATCH -o %x_%j.out
-#SBATCH -n 1
+#SBATCH -n 48
 #SBATCH -p batch
-#SBATCH --time=0-0:02:00
+#SBATCH --time=0-0:20:00
 #SBATCH --qos=qos-batch
 #SBATCH -J FITNESS-RANDOM-SEARCH
 #SBATCH --mail-type=end,fail
