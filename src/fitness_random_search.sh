@@ -2,9 +2,9 @@
 
 #SBATCH -o %x_%j.out
 #SBATCH -N 1
-#SBATCH -n 48
+#SBATCH -n 28
 #SBATCH -p batch
-#SBATCH --time=0-0:30:00
+#SBATCH --time=0-0:40:00
 #SBATCH --qos=qos-besteffort
 #SBATCH -J FITNESS-RANDOM-SEARCH
 #SBATCH --mail-type=end,fail
