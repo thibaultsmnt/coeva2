@@ -5,6 +5,7 @@ import numpy as np
 import logging
 import copy
 import datetime
+import time
 
 
 def attack(
@@ -27,10 +28,13 @@ def attack(
 
     # Copying shared resources
 
+    t0 = time.clock()
+
     weight = copy.deepcopy(weight)
     model = copy.deepcopy(model)
     scaler = copy.deepcopy(scaler)
     encoder = copy.deepcopy(encoder)
+    print('Copy process time {}'.format(time.clock()))
 
     # Create attack
 
@@ -44,16 +48,22 @@ def attack(
         n_offsprings,
         pop_size,
     )
+    
+    print('Create attack process time {}'.format(time.clock()))
+
 
     # Execute attack
 
     result = minimize(problem, algorithm, termination, verbose=0, save_history=False,)
+    print('Execute attack process time {}'.format(time.clock()))
 
-    # Check objectives
+    # Calculate objectives
 
     return calculate_objectives(
         result, pop_size, encoder, initial_state, threshold, model
     )
+    print('Calculate objectives process time {}'.format(time.clock()))
+
 
 
 def calculate_objectives(result, pop_size, encoder, initial_state, threshold, model):

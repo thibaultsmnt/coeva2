@@ -26,9 +26,9 @@ n_generation = 2500
 pop_size = 160
 n_offsprings = 80
 
-n_random_parameters = 2
-n_initial_state = 2
-n_repetition = 2
+n_random_parameters = 1
+n_initial_state = 1
+n_repetition = 1
 
 # ----- CONSTANTS
 
