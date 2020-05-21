@@ -4,7 +4,7 @@
 #SBATCH -N 1
 #SBATCH -n 28
 #SBATCH -p batch
-#SBATCH --time=0-2:40:00
+#SBATCH --time=0-12:00:00
 #SBATCH --qos=qos-besteffort
 #SBATCH -J FITNESS-RANDOM-SEARCH
 #SBATCH --mail-type=end,fail
