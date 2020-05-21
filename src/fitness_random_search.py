@@ -1,6 +1,6 @@
 import pickle
 import warnings
-from random import random
+import random
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 import logging
