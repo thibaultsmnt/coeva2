@@ -18,11 +18,6 @@ class VenusProblem(Problem):
 
         # ----- PARAMETERS
 
-        alpha = self.weight[0]
-        beta = self.weight[1]
-        gamma = self.weight[2]
-        delta = self.weight[3]
-
         x_ml = self.encoder.from_genetic_to_ml(self.original, x).astype("float64")
         x_ml_mm = self.scaler.transform(x_ml)
 
@@ -41,5 +36,5 @@ class VenusProblem(Problem):
 
         constraints = venus_constraints.evaluate(x_ml)
 
-        out["F"] = alpha * f1 + beta * f2 + gamma * f3
-        out["G"] = constraints * delta
+        out["F"] = self.weight[0] * f1 + self.weight[1] * f2 + self.weight[2] * f3
+        out["G"] = constraints * self.weight[3]
