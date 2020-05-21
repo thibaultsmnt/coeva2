@@ -35,7 +35,8 @@ class VenusProblem(Problem):
         f2 = l2_distance
 
         # f3 Maximize amount
-        f3 = 1 / x_ml[:, 0]
+        AMOUNT_BETA = 0.00000001
+        f3 = 1 / (x_ml[:, 0] + AMOUNT_BETA)
 
         # f4 Domain constraints
 
