@@ -62,26 +62,20 @@ def attack(
         result, pop_size, encoder, initial_state, threshold, model
     )
     print("Calculate objectives process time {}".format(time.clock()))
-    
-    return objectives
 
+    return objectives
 
 
 def calculate_objectives(result, pop_size, encoder, initial_state, threshold, model):
 
-    respectsConstraints = np.zeros(pop_size)
-    isMisclassified = np.zeros(pop_size)
-    isBigAmount = np.zeros(pop_size)
-    for i, individual in enumerate(result.pop):
-        respectsConstraints[i] = (individual.CV[0] == 0).astype(np.int64)
-        X = np.array(individual.X).astype(np.float64)
-        x_ml = encoder.from_genetic_to_ml(initial_state, np.array([X])).astype(
-            "float64"
-        )
-        isMisclassified[i] = np.array(
-            model.predict_proba(x_ml)[:, 1] < threshold
-        ).astype(np.int64)[0]
-        isBigAmount[i] = (X[0] >= 10000).astype(np.int64)
+    CVs = np.array(list(map(lambda x: x.CV[0], result.pop)))
+    Xs = np.array(list(map(lambda x: x.X, result.pop))).astype(np.float64)
+    respectsConstraints = (CVs == 0).astype(np.int64)
+    Xs_ml = encoder.from_genetic_to_ml(initial_state, Xs).astype(np.float64)
+    isMisclassified = np.array(model.predict_proba(Xs_ml)[:, 1] < threshold).astype(
+        np.int64
+    )
+    isBigAmount = (Xs[:, 0] >= 10000).astype(np.int64)
 
     o3 = respectsConstraints * isMisclassified
     o4 = o3 * isBigAmount
