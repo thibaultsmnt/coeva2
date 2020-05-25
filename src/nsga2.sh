@@ -4,7 +4,7 @@
 #SBATCH -N 1
 #SBATCH -n 28
 #SBATCH -p batch
-#SBATCH --time=0-1:00:00
+#SBATCH --time=0-0:5:00
 #SBATCH --qos=qos-besteffort
 #SBATCH -J NSGA2
 #SBATCH --mail-type=end,fail
