@@ -1,6 +1,6 @@
+from pymoo.algorithms.nsga2 import NSGA2
 from pymoo.factory import get_sampling, get_crossover, get_mutation
 from pymoo.factory import get_termination
-from pymoo.algorithms.so_genetic_algorithm import GA
 from pymoo.operators.mixed_variable_operator import (
     MixedVariableSampling,
     MixedVariableMutation,
@@ -56,7 +56,7 @@ def create_attack(
         },
     )
 
-    algorithm = GA(
+    algorithm = NSGA2(
         pop_size=pop_size,
         n_offsprings=n_offsprings,
         sampling=sampling,
