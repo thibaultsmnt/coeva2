@@ -3,7 +3,7 @@ from pymoo.optimize import minimize
 from .venus_attack_generator import create_attack
 import numpy as np
 import copy
-
+import time
 
 def attack(
     index,
@@ -16,6 +16,9 @@ def attack(
     pop_size,
     threshold,
 ):
+
+    t0 = time.clock()
+
     # Copying shared resources
 
     model = copy.deepcopy(model)
@@ -42,6 +45,7 @@ def attack(
 
     objectives = calculate_objectives(result, encoder, initial_state, threshold, model)
 
+    print('Attack in {}.', time.clock() - t0)
     return objectives
 
 
