@@ -39,10 +39,6 @@ model_file = "/model.joblib"
 X_attack_candidate_file = "/X_attack_candidate.npy"
 scaler_file = "/scaler.pickle"
 out_columns = [
-    "weight_1",
-    "weight_2",
-    "weight_3",
-    "weight_4",
     "objective_1",
     "objective_2",
     "objective_3",
@@ -83,7 +79,6 @@ if __name__ == "__main__":
         delayed(attack)(
             index,
             initial_state,
-            weight,
             model,
             scaler,
             encoder,
@@ -102,8 +97,7 @@ if __name__ == "__main__":
     )
 
     # Save results
-    results = np.concatenate((weight, success_rate))
-    results_df = pd.DataFrame(results.reshape(1, -1), columns=out_columns)
+    results_df = pd.DataFrame(success_rate.reshape(1, -1), columns=out_columns)
     results_df.to_csv(
         output_dir + "/nsga2.csv", index=False
     )
