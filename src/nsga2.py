@@ -1,4 +1,5 @@
 import warnings
+
 warnings.simplefilter(action="ignore", category=FutureWarning)
 import random
 import time
@@ -98,8 +99,6 @@ if __name__ == "__main__":
 
     # Save results
     results_df = pd.DataFrame(success_rate.reshape(1, -1), columns=out_columns)
-    results_df.to_csv(
-        output_dir + "/nsga2.csv", index=False
-    )
+    results_df.to_csv(output_dir + "/nsga2.csv", index=False)
 
     logging.info("Attack in {}s".format(time.clock() - t0))

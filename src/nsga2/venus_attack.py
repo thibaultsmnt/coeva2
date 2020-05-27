@@ -5,6 +5,7 @@ import numpy as np
 import copy
 import time
 
+
 def attack(
     index,
     initial_state,
@@ -28,13 +29,7 @@ def attack(
     # Create attack
 
     problem, algorithm, termination = create_attack(
-        initial_state,
-        model,
-        scaler,
-        encoder,
-        n_generation,
-        n_offsprings,
-        pop_size,
+        initial_state, model, scaler, encoder, n_generation, n_offsprings, pop_size,
     )
 
     # Execute attack
@@ -45,7 +40,7 @@ def attack(
 
     objectives = calculate_objectives(result, encoder, initial_state, threshold, model)
 
-    print('Attack in {}.', time.clock() - t0)
+    print("Attack in {}.", time.clock() - t0)
     return objectives
 
 
