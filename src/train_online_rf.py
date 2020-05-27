@@ -28,7 +28,7 @@ dataset_path = "../data/lcld/lcld_venus_sorted.csv"
 model_file_prefix = "/model"
 model_file_extension = ".joblib"
 scaler_file = "/scaler.pickle"
-mcc_file = "mcc.csv"
+mcc_file = "/mcc.csv"
 
 model_parameters = {
     "n_estimators": 125,
