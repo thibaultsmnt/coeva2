@@ -4,7 +4,7 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH -p batch
-#SBATCH --time=0-3:00:00
+#SBATCH --time=0-10:00:00
 #SBATCH --qos=qos-besteffort
 #SBATCH -J TRAIN-ONLINE-RF
 #SBATCH --mail-type=end,fail
