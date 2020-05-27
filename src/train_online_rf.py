@@ -45,7 +45,7 @@ Path(output_dir).mkdir(parents=True, exist_ok=True)
 # ----- GET DATA
 
 data = pd.read_csv(dataset_path)
-data = data.sample(frac=0.1)
+data = data.sample(frac=0.01)
 
 # ----- DEFINE, TRAIN AND SAVE CLASSIFIER
 
