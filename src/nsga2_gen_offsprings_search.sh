@@ -4,7 +4,7 @@
 #SBATCH -N 1
 #SBATCH -n 28
 #SBATCH -p batch
-#SBATCH --time=0-00:15:00
+#SBATCH --time=0-08:00:00
 #SBATCH --qos=qos-besteffort
 #SBATCH -J NSGA2_GEN_OFFSPRINGS
 #SBATCH --mail-type=end,fail

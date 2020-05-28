@@ -27,7 +27,7 @@ n_jobs = -1
 budget = 200000
 list_n_offsprings = [10, 20, 40, 80, 160, 320]
 
-n_initial_state = 28
+n_initial_state = 1000
 n_repetition = 1
 offset = 0
 
