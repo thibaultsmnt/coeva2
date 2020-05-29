@@ -25,11 +25,11 @@ seed = 0
 threshold = 0.24
 n_jobs = -1
 budget = 200000
-list_n_offsprings = [10, 20, 40, 80, 160, 320]
+list_n_offsprings = [10, 20, 40, 80, 160, 320, 640]
 
 n_initial_state = 1000
 n_repetition = 1
-offset = 0
+offset = 6
 
 # ----- CONSTANTS
 
