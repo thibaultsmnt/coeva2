@@ -43,7 +43,7 @@ plt.show()
 df.plot(y=objectives, use_index=True)
 plt.show()
 
-df = df.sort_values(by=["objective_3"], ascending=[0])
+df = df.sort_values(by=["objective_4"], ascending=[0])
 print("--- {} best parameters and results.".format(n_best))
 print(df.head(n_best))
 print("--- Original parameters and results")
@@ -67,4 +67,4 @@ for i in range(4):
     print((unique, counts))
 
 # Best order seems to be 1 3 2 0, or b d c a
-# Best order seems to be 1 3 0 2, or b d a c
+# Best order seems to be 1 3 0 2, or b d a c perturbation < constraints < misclassification < montant
