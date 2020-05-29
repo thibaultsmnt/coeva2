@@ -25,11 +25,11 @@ seed = 0
 threshold = 0.24
 n_jobs = -1
 budget = 200000
-list_n_offsprings = [10, 20, 40, 80, 160, 320, 640]
+list_n_offsprings = [10, 20, 40, 80, 160, 320, 640, 1280]
 
 n_initial_state = 1000
 n_repetition = 1
-offset = 6
+offset = 7
 
 # ----- CONSTANTS
 
@@ -114,6 +114,4 @@ if __name__ == "__main__":
             (np.array([n_generation, pop_size, n_offsprings]), success_rate)
         )
         results_df = pd.DataFrame(result.reshape(1, -1), columns=out_columns)
-        results_df.to_csv(
-            output_dir + "/parameters_{}.csv".format(offset + i), index=False
-        )
+        results_df.to_csv(output_dir + "/parameters_{}.csv".format(i), index=False)
