@@ -22,7 +22,7 @@ logging.basicConfig(level=logging.DEBUG)
 input_dir = "../out/target_model"
 output_dir = "../out/venus_attacks/coeva2_all_random_fitness_scaled"
 seed = 0
-offset = 100
+offset = 0
 threshold = 0.24
 n_jobs = -1
 
@@ -30,10 +30,12 @@ n_generation = 2500
 pop_size = 160
 n_offsprings = 80
 
-n_random_parameters = 1
+n_random_parameters = 100
 n_initial_state = 1000
 n_repetition = 1
 
+weight_min = 1
+weight_max = 100
 
 # ----- CONSTANTS
 
@@ -88,8 +90,7 @@ if __name__ == "__main__":
         t0 = time.clock()
 
         # Randomly generate weight
-        weight = np.absolute(np.random.normal(size=4))
-        weight = [2, 1, 100, 1000]
+        weight = np.random.uniform(weight_min, weight_max, 4)
         logging.info(
             "Parameters: {} ({}/{})".format(weight, i + 1, n_random_parameters)
         )
