@@ -1,22 +1,11 @@
 # coeva2
 
-## Create the environment on HPC
+## Create the environment with conda (python 3.7.7)
 
 
 ```
-module purge
-module restore python3
-virtualenv adv
-chmod +x adv/bin/activate
-. ./adv/bin/activate
+conda create --name coeva2 python=3.7
+conda activate coeva2
 pip install -r requirements.txt
-```
-
-## On macOS
-
-Run before installing the other requirements
-
-```
-pip3 install xgboost
 ```
 

@@ -1,0 +1,22 @@
+{
+    
+    "experiment_path":"../out/target_model",
+    "dataset_path":"../data/lcld/lcld_venus.csv",
+    "dataset_features":"../data/lcld/lcld_venus_dtypes.csv",
+    "model_file":"model.joblib",
+    "model_threshold":0.24,
+    "scaler_file":"scaler.pickle",
+    "initial_states":"X_attack_candidate.npy",
+    "model_features":"",
+
+    "training_parameters":{
+        "n_estimators": 125,
+        "min_samples_split": 6,
+        "min_samples_leaf": 2,
+        "max_depth": 10,
+        "bootstrap": true
+    }
+    
+
+
+}
