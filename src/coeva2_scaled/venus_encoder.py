@@ -20,6 +20,14 @@ class VenusEncoder:
         constraint_scaler.fit(vector)
         self.constraint_scaler = constraint_scaler
         self.mask = self.features["mutable"].to_numpy()
+        self.LOG_ALPHA = 0.00000001
+        self.AMOUNT_BETA = 0.00000001
+        f1_scaler = MinMaxScaler(feature_range=(0, 1))
+        f1_scaler.fit([[np.log(self.LOG_ALPHA)], [np.log(1)]])
+        self.f1_scaler = f1_scaler
+        f2_scaler = MinMaxScaler(feature_range=(0, 1))
+        f2_scaler.fit([[0], [np.sqrt(15)]])
+        self.f2_scaler = f2_scaler
         for i, encoder in enumerate(self.one_hot_encoders):
             possible_values = np.arange(self.one_hot_size[i])
             possible_values = possible_values.reshape(len(possible_values), 1)
