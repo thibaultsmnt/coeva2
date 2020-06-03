@@ -9,10 +9,10 @@ from pymoo.operators.mixed_variable_operator import (
 from .venus_coeva2_all_problem import VenusProblem
 
 def init_attack(
-    initial_state, model, scaler, encoder, problem_constraints, gene_types, objectives_weight, n_generation, n_offsprings, pop_size
+    initial_state, model, scaler, encoder, problem_constraints, gene_types, objectives_weight, n_generation, n_offsprings, pop_size, record_history=False
 ):
 
-    problem = VenusProblem(initial_state, objectives_weight, model, encoder, scaler, problem_constraints, len(gene_types))
+    problem = VenusProblem(initial_state, objectives_weight, model, encoder, scaler, problem_constraints, len(gene_types), record_history)
 
     type_mask = gene_types
 

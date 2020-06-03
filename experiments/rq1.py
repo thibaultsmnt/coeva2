@@ -46,8 +46,13 @@ def run(config_file="./configurations/config1.json"):
     y = data.pop("charged_off").to_numpy()
     X  = data.to_numpy()
 
-    output_dir = "{}/states_{}".format(experiment_path,seed)
+    output_dir = "{}/states/{}".format(experiment_path,seed)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
+
+
+    if ga_parameters.get("record_history"):
+        history_dir = "{}/history/{}".format(experiment_path,seed)
+        Path(history_dir).mkdir(parents=True, exist_ok=True)
 
     group_states = []
     step = 50
@@ -72,4 +77,11 @@ def run(config_file="./configurations/config1.json"):
         if i%step ==0 & i>0:
             np.save("{}/s{}_{}".format(output_dir,i),np.array(group_states))
             group_states = []
+
+        
+        if ga_parameters.get("record_history"):
+            with open("{}/s{}_{}".format(output_dir,i),np.array(group_states), 'w') as outfile:
+                json.dump(data, problem.history)
+                
+
         
