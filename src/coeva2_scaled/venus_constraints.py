@@ -6,7 +6,7 @@ def evaluate(x_ml, encoder):
 
     # ----- PARAMETERS
 
-    tol = 1e-3
+    tol = 1e-9
 
     # installment = loan_amount * int_rate (1 + int_rate) ^ term / ((1+int_rate) ^ term - 1)
     calculated_installment = (
