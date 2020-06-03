@@ -4,6 +4,7 @@ import numpy as np
 class VenusProblem(Problem):
 
     FEATURE_TO_MAXIMIZE = 0
+    FULL_HISTORY = False
 
     def __init__(self, initial_state, objectives_weight, model, encoder, scaler, problem_constraints, nb_genes, record_history=False):
         min_max = encoder.get_min_max_genetic()
@@ -16,7 +17,7 @@ class VenusProblem(Problem):
         self.problem_constraints = problem_constraints
 
         self.record_history = record_history
-        self.history = {"X": [], "X_ml": [], "F": [], "G": []}
+        self.history = {"X": [], "X_ml": [], "F": [], "G": []} if VenusProblem.FULL_HISTORY else  {"F": [], "G": []}
 
         super().__init__(n_var=nb_genes, n_obj=1, n_constr=problem_constraints.nb_constraints, xl=min_max[0], xu=min_max[1])
 
@@ -53,7 +54,10 @@ class VenusProblem(Problem):
         out["G"] = constraints * self.weight[-1]
 
         if self.record_history:
-            self.history["X"].append(x.tolist())
-            self.history["X_ml"].append(x_ml.tolist())
-            self.history["F"].append(out["F"].tolist())
-            self.history["G"].append(out["G"].tolist())
+            
+            self.history["F"].append([f1.tolist(), f2.tolist(), f3.tolist()])
+            self.history["G"].append(constraints.tolist())
+
+            if VenusProblem.FULL_HISTORY:
+                self.history["X"].append(x.tolist())
+                self.history["X_ml"].append(x_ml.tolist())
