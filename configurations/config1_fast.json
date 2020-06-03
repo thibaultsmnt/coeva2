@@ -17,10 +17,10 @@
     },
     
     "ga_parameters":{
-        "n_generation": 100,
+        "n_generation": 10,
         "n_offsprings": 50,
-        "pop_size": 100,
-        "objectives_weight":[1,1,1,1],
+        "pop_size": 50,
+        "objectives_weight":[1,1,1,0,1],
         "gene_types": [
             "real",
             "int",
@@ -37,7 +37,8 @@
             "real",
             "real",
             "int"
-        ]
+        ],
+        "record_history":true
     }
 
 }
