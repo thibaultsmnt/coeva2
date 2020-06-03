@@ -1,8 +1,12 @@
 import numpy as np
 import pandas as pd
 from joblib import load
+import logging
+
 from utils import Pickler
 from utils import Datafilter
+
+logging.basicConfig(level=logging.DEBUG)
 
 # ----- PARAMETERS
 from sklearn.preprocessing import MinMaxScaler
@@ -39,6 +43,7 @@ for index, month in np.ndenumerate(train_months):
     model = load(
         "{}{}_{}{}".format(output_dir, model_file_prefix, month, model_file_extension)
     )
+    logging.debug("Candidate for month {}.".format(month))
 
     # Testing
 
