@@ -5,10 +5,10 @@ import copy
 
 
 class VenusEncoder:
-    def __init__(self, features_path="../data/lcld/lcld_venus_dtypes.csv"):
+    def __init__(self, features_path="./data/lcld/lcld_venus_dtypes.csv", nb_genes=15):
         # Creates encoders
-        self.one_hot_position = np.array([14])
-        self.one_hot_size = np.array([14])
+        self.one_hot_position = np.array([nb_genes-1])
+        self.one_hot_size = np.array([nb_genes-1])
         self.one_hot_encoders = [OneHotEncoder(sparse=False)]
         features = pd.read_csv(features_path, low_memory=False)
         self.features = features.drop(features.tail(1).index)

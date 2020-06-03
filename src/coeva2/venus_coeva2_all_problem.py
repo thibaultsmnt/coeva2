@@ -1,18 +1,20 @@
 from pymoo.model.problem import Problem
 import numpy as np
-from . import venus_constraints
-
 
 class VenusProblem(Problem):
-    def __init__(self, initial_state, weight, model, encoder, scaler):
+
+    FEATURE_TO_MAXIMIZE = 0
+
+    def __init__(self, initial_state, objectives_weight, model, encoder, scaler, problem_constraints, nb_genes):
         min_max = encoder.get_min_max_genetic()
-        self.weight = weight
+        self.weight = objectives_weight
         self.model = model
         self.encoder = encoder
         self.scaler = scaler
         self.original = initial_state
         self.original_mm = self.scaler.transform([initial_state])[0]
-        super().__init__(n_var=15, n_obj=1, n_constr=10, xl=min_max[0], xu=min_max[1])
+        self.problem_constraints = problem_constraints
+        super().__init__(n_var=nb_genes, n_obj=1, n_constr=problem_constraints.nb_constraints, xl=min_max[0], xu=min_max[1])
 
     def _evaluate(self, x, out, *args, **kwargs):
 
@@ -36,11 +38,13 @@ class VenusProblem(Problem):
 
         # f3 Maximize amount
         AMOUNT_BETA = 0.00000001
-        f3 = 1 / (x_ml[:, 0] + AMOUNT_BETA)
+        f3 = 1 / (x_ml[:, VenusProblem.FEATURE_TO_MAXIMIZE] + AMOUNT_BETA)
+
+        objectives = [f1, f2, f3]
 
         # f4 Domain constraints
 
-        constraints = venus_constraints.evaluate(x_ml)
+        constraints = self.problem_constraints.evaluate(x_ml)
 
-        out["F"] = alpha * f1 + beta * f2 + gamma * f3
-        out["G"] = constraints * delta
+        out["F"] = sum(i[0] * i[1] for i in zip(objectives, self.weight[:-1]))
+        out["G"] = constraints * self.weight[-1]

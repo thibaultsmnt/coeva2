@@ -7,22 +7,21 @@ import numpy as np
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 import pandas as pd
-from utils import Pickler
-from utils import Datafilter
 from joblib import dump
-
 from sklearn.preprocessing import MinMaxScaler
-from coeva2 import venus_constraints
+
+from .utils import Pickler, Datafilter
+from .coeva2.problem_definition import ProblemConstraints
 
 # ----- PARAMETERS
 
-OUTPUT_DIR = "../out/target_model"
-DATASET_PATH = "../data/lcld/lcld_venus.csv"
+OUTPUT_DIR = "./out/target_model"
+DATASET_PATH = "./data/lcld/lcld_venus.csv"
 
 # ----- CONSTANT
 
 MODEL_FILE = "/model.joblib"
-INITIAL_STATES = "/X_attack_candidate.npy"
+INITIAL_STATES = "/attack_candidates.npy"
 SCALER = "/scaler.pickle"
 
 PARAMS = {
@@ -36,7 +35,7 @@ THRESHOLD = 0.24
 VERBOSE = 2
 
 
-def train(dataset_path=DATASET_PATH, output_dir=OUTPUT_DIR, model_file=MODEL_FILE,
+def run(dataset_path=DATASET_PATH, output_dir=OUTPUT_DIR, model_file=MODEL_FILE,
     initial_states=INITIAL_STATES,training_parameters=PARAMS,scaler_file=SCALER, threshold=THRESHOLD, verbose=VERBOSE):
 
     Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -63,7 +62,8 @@ def train(dataset_path=DATASET_PATH, output_dir=OUTPUT_DIR, model_file=MODEL_FIL
     X_test = X_test[np.random.permutation(X_test.shape[0])]
 
     # ----- REMOVE CONSTRAINTS VIOLATED
-    constraints = venus_constraints.evaluate(X_test)
+    problem_constraints = ProblemConstraints()
+    constraints = problem_constraints.evaluate(X_test)
     constraints_violated = constraints > 0
     constraints_violated = constraints_violated.sum(axis=1).astype(bool)
     X_test = X_test[(1 - constraints_violated).astype(bool)]
@@ -77,4 +77,4 @@ def train(dataset_path=DATASET_PATH, output_dir=OUTPUT_DIR, model_file=MODEL_FIL
 
 
 if __name__ == '__main__':
-    train()	
+    run()	

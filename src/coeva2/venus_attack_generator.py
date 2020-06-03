@@ -8,30 +8,13 @@ from pymoo.operators.mixed_variable_operator import (
 )
 from .venus_coeva2_all_problem import VenusProblem
 
-
-def create_attack(
-    initial_state, weight, model, scaler, encoder, n_generation, n_offsprings, pop_size
+def init_attack(
+    initial_state, model, scaler, encoder, problem_constraints, gene_types, objectives_weight, n_generation, n_offsprings, pop_size
 ):
 
-    problem = VenusProblem(initial_state, weight, model, encoder, scaler)
+    problem = VenusProblem(initial_state, objectives_weight, model, encoder, scaler, problem_constraints, len(gene_types))
 
-    type_mask = [
-        "real",
-        "int",
-        "real",
-        "real",
-        "real",
-        "real",
-        "real",
-        "real",
-        "real",
-        "real",
-        "real",
-        "int",
-        "real",
-        "real",
-        "int",
-    ]
+    type_mask = gene_types
 
     sampling = MixedVariableSampling(
         type_mask,
