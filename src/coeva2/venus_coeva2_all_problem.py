@@ -40,6 +40,10 @@ class VenusProblem(Problem):
 
         objectives = [f1, f2, f3]
 
+        # R Random objective
+        if len(self.weight)==5:
+            R = np.random.rand()
+            objectives.append(R)
 
         # f4 Domain constraints
 
