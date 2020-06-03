@@ -17,7 +17,7 @@
     },
     
     "ga_parameters":{
-        "n_generation": 10000,
+        "n_generation": 100,
         "n_offsprings": 50,
         "pop_size": 100,
         "objectives_weight":[1,1,1,1],
