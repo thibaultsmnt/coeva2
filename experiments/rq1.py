@@ -9,14 +9,14 @@ from pymoo.optimize import minimize
 from datetime import datetime
 
 sys.path.append("./")
-from src.utils import Pickler
 from src.coeva2.venus_encoder import VenusEncoder
 from src.coeva2.venus_attack_generator import init_attack
 from src.coeva2.problem_definition import ProblemConstraints, ProblemEvaluation
 
+from src.utils.in_out import json_to_file, save_to_file, pickle_from_file
 
 
-def run(config_file="./configurations/config1.json"):
+def run(config_file):
 
     parameters= {}
     with open(config_file) as f:
@@ -26,7 +26,7 @@ def run(config_file="./configurations/config1.json"):
         raise KeyError()
 
     
-    seed =  int(datetime.timestamp(datetime.now()))
+    experiment_id =  int(datetime.timestamp(datetime.now()))
 
     dataset_path = parameters.get("dataset_path")
     dataset_features = parameters.get("dataset_features")
@@ -36,52 +36,46 @@ def run(config_file="./configurations/config1.json"):
     threshold = parameters.get("model_threshold")
     ga_parameters = parameters.get("ga_parameters")
     dataset_constraints = parameters.get("dataset_constraints")
+    max_states = parameters.get("max_states",0)
 
     data = pd.read_csv(dataset_path)
     model = load("{}/{}".format(experiment_path,model_file))
-    scaler = Pickler.load_from_file("{}/{}".format(experiment_path,scaler_file))
+    scaler = pickle_from_file("{}/{}".format(experiment_path,scaler_file))
     encoder = VenusEncoder(dataset_features, len(ga_parameters.get("gene_types")))
     problem_constraints = ProblemConstraints()
 
     y = data.pop("charged_off").to_numpy()
     X  = data.to_numpy()
 
-    output_dir = "{}/states/{}".format(experiment_path,seed)
+    output_dir = "{}/states/{}".format(experiment_path,experiment_id)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 
     if ga_parameters.get("record_history"):
-        history_dir = "{}/history/{}".format(experiment_path,seed)
+        history_dir = "{}/history/{}".format(experiment_path,experiment_id)
         Path(history_dir).mkdir(parents=True, exist_ok=True)
-
-    group_states = []
-    step = 50
-    
     
     for i,state in enumerate(X):
+        print("state {}".format(i))
+
+        if max_states>0 and i > max_states:
+            break
 
         initial_state = copy.copy(state)
         problem, algorithm, termination = init_attack(
                 state, model, scaler, encoder, problem_constraints, **ga_parameters
         )
         result = minimize(
-            problem, algorithm, termination, verbose=0, save_history=False,
+            problem, algorithm, termination, verbose=2, save_history=False,
         )
 
         evaluation = ProblemEvaluation(result, encoder, initial_state, threshold, model)
         objectives = evaluation.calculate_objectives()
+        save_to_file(objectives,"{}/s{}.npy".format(output_dir,i))
 
-        print(objectives)
-        group_states.append(objectives)
-
-        if i%step ==0 & i>0:
-            np.save("{}/s{}_{}".format(output_dir,i),np.array(group_states))
-            group_states = []
-
-        
         if ga_parameters.get("record_history"):
-            with open("{}/s{}_{}".format(output_dir,i),np.array(group_states), 'w') as outfile:
-                json.dump(data, problem.history)
+            json_to_file(problem.history, "{}/s{}.json".format(history_dir,i))
                 
+    return experiment_id
 
         

@@ -10,7 +10,7 @@ import pandas as pd
 from joblib import dump
 from sklearn.preprocessing import MinMaxScaler
 
-from .utils import Pickler, Datafilter
+from .utils import in_out, Datafilter
 from .coeva2.problem_definition import ProblemConstraints
 
 # ----- PARAMETERS
@@ -73,7 +73,7 @@ def run(dataset_path=DATASET_PATH, output_dir=OUTPUT_DIR, model_file=MODEL_FILE,
 
     scaler = MinMaxScaler()
     scaler.fit(X)
-    Pickler.save_to_file(scaler, output_dir + scaler_file)
+    in_out.pickle_to_file(scaler, output_dir + scaler_file)
 
 
 if __name__ == '__main__':
