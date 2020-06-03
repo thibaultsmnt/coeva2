@@ -19,9 +19,12 @@ def create_attack(
     pop_size,
     target,
     threshold,
+    data,
 ):
 
-    problem = VenusProblem(initial_state, model, encoder, scaler, target, threshold)
+    problem = VenusProblem(
+        initial_state, model, encoder, scaler, target, threshold, data
+    )
 
     type_mask = [
         "real",

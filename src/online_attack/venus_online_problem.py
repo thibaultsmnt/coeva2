@@ -18,7 +18,7 @@ def _f1(X_ml, model, target, threshold):
 
 
 class VenusProblem(Problem):
-    def __init__(self, initial_state, model, encoder, scaler, target, threshold):
+    def __init__(self, initial_state, model, encoder, scaler, target, threshold, data):
         min_max = encoder.get_min_max_genetic()
         self.model = model
         self.encoder = encoder
@@ -27,6 +27,7 @@ class VenusProblem(Problem):
         self.original_mm = self.scaler.transform([initial_state])[0]
         self.target = target
         self.threshold = threshold
+        self.data = data
         super().__init__(n_var=15, n_obj=2, n_constr=10, xl=min_max[0], xu=min_max[1])
 
     def _evaluate(self, x, out, *args, **kwargs):

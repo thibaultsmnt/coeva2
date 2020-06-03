@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 import pandas as pd
 import copy
 
@@ -12,7 +12,22 @@ class VenusEncoder:
         self.one_hot_encoders = [OneHotEncoder(sparse=False)]
         features = pd.read_csv("../data/lcld/lcld_venus_dtypes.csv", low_memory=False)
         self.features = features.drop(features.tail(1).index)
+        constraints = pd.read_csv(
+            "../data/lcld/lcld_venus_constraints.csv", low_memory=False
+        )
+        constraint_scaler = MinMaxScaler(feature_range=(0, 1))
+        vector = [constraints["min"], constraints["max"]]
+        constraint_scaler.fit(vector)
+        self.constraint_scaler = constraint_scaler
         self.mask = self.features["mutable"].to_numpy()
+        self.LOG_ALPHA = 0.00000001
+        self.AMOUNT_BETA = 0.00000001
+        f1_scaler = MinMaxScaler(feature_range=(0, 1))
+        f1_scaler.fit([[np.log(self.LOG_ALPHA)], [np.log(1)]])
+        self.f1_scaler = f1_scaler
+        f2_scaler = MinMaxScaler(feature_range=(0, 1))
+        f2_scaler.fit([[0], [np.sqrt(15)]])
+        self.f2_scaler = f2_scaler
         for i, encoder in enumerate(self.one_hot_encoders):
             possible_values = np.arange(self.one_hot_size[i])
             possible_values = possible_values.reshape(len(possible_values), 1)
