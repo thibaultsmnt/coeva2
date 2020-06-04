@@ -16,7 +16,7 @@ from src.coeva2.problem_definition import ProblemConstraints, ProblemEvaluation
 from src.utils.in_out import json_to_file, save_to_file, pickle_from_file
 
 
-def run(config_file):
+def run(config_file, experiment_id=None):
 
     parameters= {}
     with open(config_file) as f:
@@ -26,8 +26,7 @@ def run(config_file):
         raise KeyError()
 
     
-    experiment_id =  int(datetime.timestamp(datetime.now()))
-
+    experiment_id =  int(datetime.timestamp(datetime.now())) if experiment_id is None else experiment_id
     dataset_path = parameters.get("dataset_path")
     dataset_features = parameters.get("dataset_features")
     experiment_path = parameters.get("experiment_path")
@@ -37,6 +36,8 @@ def run(config_file):
     ga_parameters = parameters.get("ga_parameters")
     dataset_constraints = parameters.get("dataset_constraints")
     max_states = parameters.get("max_states",0)
+
+    print("running config {} experiment {} id {}".format(config_file, experiment_path, experiment_id))
 
     data = pd.read_csv(dataset_path)
     model = load("{}/{}".format(experiment_path,model_file))
