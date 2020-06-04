@@ -23,31 +23,43 @@ class VenusProblem(Problem):
 
     def _evaluate(self, x, out, *args, **kwargs):
 
+            
+        LOG_ALPHA = 0.00000001
+        AMOUNT_BETA = 0.00000001
 
+        objectives = []
+        
         x_ml = self.encoder.from_genetic_to_ml(self.original, x).astype("float64")
-        x_ml_mm = self.scaler.transform(x_ml)
+        
 
         # f1 Maximize probability of target
-        LOG_ALPHA = 0.00000001
-        f1 = np.log(self.model.predict_proba(x_ml)[:, 1] + LOG_ALPHA)
+        if self.weight[0] ==0:
+            f1 = np.zeros(len(x))
+        else:
+            f1 = np.log(self.model.predict_proba(x_ml)[:, 1] + LOG_ALPHA)
 
         # f2 Minimize perturbation
-        l2_distance = np.linalg.norm(x_ml_mm[:, 1:] - self.original_mm[1:], axis=1)
-        f2 = l2_distance
+        if self.weight[1] ==0:
+            f2 = np.zeros(len(x))
+        else:
+            x_ml_mm = self.scaler.transform(x_ml)
+            l2_distance = np.linalg.norm(x_ml_mm[:, 1:] - self.original_mm[1:], axis=1)
+            f2 = l2_distance
 
         # f3 Maximize amount
-        AMOUNT_BETA = 0.00000001
-        f3 = 1 / (x_ml[:, VenusProblem.FEATURE_TO_MAXIMIZE] + AMOUNT_BETA)
+        if self.weight[2] ==0:
+            f3 = np.zeros(len(x))
+        else:
+            f3 = 1 / (x_ml[:, VenusProblem.FEATURE_TO_MAXIMIZE] + AMOUNT_BETA)
 
         objectives = [f1, f2, f3]
-
+        
         # R Random objective
         if len(self.weight)==5:
-            R = np.random.rand()
+            R = np.random.rand(len(x))
             objectives.append(R)
 
         # f4 Domain constraints
-
         constraints = self.problem_constraints.evaluate(x_ml)
 
         out["F"] = sum(i[0] * i[1] for i in zip(objectives, self.weight[:-1]))
