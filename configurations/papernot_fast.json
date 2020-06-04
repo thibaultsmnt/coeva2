@@ -17,29 +17,9 @@
         "bootstrap": true
     },
     
-    "ga_parameters":{
-        "n_generation": 2500,
-        "n_offsprings": 160,
-        "pop_size": 80,
-        "objectives_weight":[1,1,1,0,1],
-        "gene_types": [
-            "real",
-            "int",
-            "real",
-            "real",
-            "real",
-            "real",
-            "real",
-            "real",
-            "real",
-            "real",
-            "real",
-            "int",
-            "real",
-            "real",
-            "int"
-        ],
-        "record_history":true
+    "papernot_parameters":{
+        "nb_estimators":10, 
+        "nb_iterations":1000
     }
 
 }
