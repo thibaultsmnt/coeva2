@@ -4,18 +4,41 @@ import pandas as pd
 
 class ProblemConstraints(object):
 
+    _custom_constraints_script = None
+    _custom_constraints_count = None
+    
     def __init__(self):
         pass
 
+    @staticmethod 
+    def set_custom_constraints(count, script_path):
+        ProblemConstraints._custom_constraints_count = count
+
+        with open(script_path) as myfile:
+            script = myfile.read()
+            ProblemConstraints._custom_constraints_script = script
+
     @property
     def nb_constraints(self):
-        return 10
+        if ProblemConstraints._custom_constraints_count is None:
+            return 10
+        else:
+            return ProblemConstraints._custom_constraints_count
 
     def evaluate(self, x_ml):
 
         # ----- PARAMETERS
 
         tol = 1e-3
+
+
+        # ------ CUSTOM CONSTRAINTS
+
+        if ProblemConstraints._custom_constraints_script:
+            constraints = []
+            exec(ProblemConstraints._custom_constraints_script)
+            return anp.column_stack(constraints) - tol
+
 
         # installment = loan_amount * int_rate (1 + int_rate) ^ term / ((1+int_rate) ^ term - 1)
         calculated_installment = (

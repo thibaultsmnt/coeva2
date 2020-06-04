@@ -29,7 +29,7 @@ def main(experiments_id):
 
     if "papernot" in experiments_id:
         # Iterative papernot attack 
-        config_name, experiment_id = "./configurations/random_fast.json", "papernot"
+        config_name, experiment_id = "./configurations/papernot_fast.json", "papernot"
         adv, objectives = run_papernot(config_name, experiment_id)
 
 def init(argv):
@@ -40,7 +40,6 @@ def init(argv):
                                    "xp="])
     except getopt.GetoptError:
         pass
-
     for opt, arg in opts:
         
         if opt == '-h':
@@ -48,8 +47,8 @@ def init(argv):
                 'experiment.py -x <all|f1f2f3f4|f1f3f4|f1f2f4|randomf4|papernot>')
             sys.exit()
         elif opt in ("-x", "--xp"):
-            if opt != "all":
-                experiment = [opt]
+            if arg != "all":
+                experiment = [arg]
 
     main(experiment)
 
