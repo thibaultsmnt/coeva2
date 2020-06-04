@@ -173,21 +173,22 @@ class RFAttack(object):
     classifier = None
     attack = None
 
-    def __init__(self,cls, tree_attack=IterativeDecisionTreeAttack, nb_estimators=10,nb_iterations=10,**kwargs):
+    def __init__(self,cls, tree_attack=IterativeDecisionTreeAttack, threshold=0.5, nb_estimators=10,nb_iterations=10,**kwargs):
         super().__init__()
         self.classifier = cls
+        self.threshold = threshold
         self.attack = tree_attack
         self.attack_args = kwargs
         self.nb_estimators = nb_estimators
         self.nb_iterations = nb_iterations
 
-    def l_metrics(X, X_adv):
+    def l_metrics(self, X, X_adv):
         l_2 = np.linalg.norm(X_adv-X, axis=1).mean()
         l_inf = np.linalg.norm(X_adv-X, axis=1, ord=np.inf).mean()
         return l_2, l_inf
 
-    def c_metrics(y_true, y_proba, threshold=0.5):
-        y_pred = y_proba[:,1] >= threshold
+    def c_metrics(self, y_true, y_proba):
+        y_pred = y_proba[:,1] >= self.threshold
         ppv = metrics.precision_score(y_true, y_pred)
         conf_matrix = metrics.confusion_matrix(y_true, y_pred)
         npv = conf_matrix[0,0]/(conf_matrix[0,0]+ conf_matrix[0,1])
@@ -199,7 +200,7 @@ class RFAttack(object):
     def score_performance(self, x0, x, y0):
 
         y = self.classifier.predict_proba(x)
-        _, accuracy, _ , _ =  RFAttack.c_metrics(y0,y)
+        _, accuracy, _ , _ =  self.c_metrics(y0,y)
 
         return 1-accuracy
 
@@ -234,7 +235,7 @@ class RFAttack(object):
                 rf_success_rate = tree_success_rate
                 rf_success_x = tree_success_x
 
-            l_2, l_inf = RFAttack.l_metrics(rf_success_x,x0)
+            l_2, l_inf = self.l_metrics(rf_success_x,x0)
             
 
         return rf_success_x, rf_success_rate, l_2, l_inf
