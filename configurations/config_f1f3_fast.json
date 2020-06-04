@@ -8,6 +8,7 @@
     "model_threshold":0.24,
     "scaler_file":"scaler.pickle",
     "initial_states":"attack_candidates.npy",
+    "max_states":200,
     "training_parameters":{
         "n_estimators": 125,
         "min_samples_split": 6,
@@ -17,10 +18,10 @@
     },
     
     "ga_parameters":{
-        "n_generation": 10,
-        "n_offsprings": 50,
-        "pop_size": 50,
-        "objectives_weight":[1,1,1,0,1],
+        "n_generation": 2500,
+        "n_offsprings": 160,
+        "pop_size": 80,
+        "objectives_weight":[1,0,1,0,1],
         "gene_types": [
             "real",
             "int",
