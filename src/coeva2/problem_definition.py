@@ -99,7 +99,7 @@ class ProblemEvaluation(object):
         self.result = result
         self.encoder, self.initial_state, self.threshold, self.model = encoder, initial_state, threshold, model
         
-    def calculate_objectives(self):
+    def calculate_objectives(self, return_valid=False):
 
         result, encoder, initial_state, threshold, model = self.result,self.encoder, self.initial_state, self.threshold, self.model
         
@@ -118,4 +118,7 @@ class ProblemEvaluation(object):
         objectives = objectives.sum(axis=1)
         objectives = (objectives > 0).astype(np.int64)
 
-        return objectives
+        if return_valid:
+            return list(Xs_ml[o4]), objectives
+        else:
+            return objectives
