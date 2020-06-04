@@ -6,7 +6,7 @@ def evaluate(x_ml, encoder):
 
     # ----- PARAMETERS
 
-    tol = 1e-5
+    tol = 1e-3
 
     # installment = loan_amount * int_rate (1 + int_rate) ^ term / ((1+int_rate) ^ term - 1)
     calculated_installment = (
@@ -55,12 +55,12 @@ def evaluate(x_ml, encoder):
     ratio[np.isnan(ratio)] = -1
     g410 = np.absolute(x_ml[:, 25] - ratio)
 
-    constraints = anp.column_stack([g41, g42, g43, g44, g45, g46, g47, g48, g49, g410])
+    constraints = (
+        anp.column_stack([g41, g42, g43, g44, g45, g46, g47, g48, g49, g410]) - tol
+    )
     scaled_constraints = encoder.constraint_scaler.transform(constraints)
-    tol_constraints = scaled_constraints
-    tol_constraints[tol_constraints <= tol] = 0.0
 
-    return tol_constraints
+    return scaled_constraints
 
 
 def _date_feature_to_month(feature):
