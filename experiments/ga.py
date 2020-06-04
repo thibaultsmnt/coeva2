@@ -13,7 +13,7 @@ from src.coeva2.venus_encoder import VenusEncoder
 from src.coeva2.venus_attack_generator import init_attack
 from src.coeva2.problem_definition import ProblemConstraints, ProblemEvaluation
 
-from src.utils.in_out import json_to_file, save_to_file, pickle_from_file
+from src.utils.in_out import json_to_file, save_to_file, pickle_from_file, load_from_file
 
 
 def run(config_file, experiment_id=None):
@@ -36,6 +36,8 @@ def run(config_file, experiment_id=None):
     ga_parameters = parameters.get("ga_parameters")
     dataset_constraints = parameters.get("dataset_constraints")
     max_states = parameters.get("max_states",0)
+    initial_states = parameters.get("initial_states",0)
+    
 
     print("running config {} experiment {} id {}".format(config_file, experiment_path, experiment_id))
 
@@ -45,8 +47,7 @@ def run(config_file, experiment_id=None):
     encoder = VenusEncoder(dataset_features, len(ga_parameters.get("gene_types")))
     problem_constraints = ProblemConstraints()
 
-    y = data.pop("charged_off").to_numpy()
-    X  = data.to_numpy()
+    X  = load_from_file("{}/{}".format(experiment_path,initial_states))
 
     output_dir = "{}/states/{}".format(experiment_path,experiment_id)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
