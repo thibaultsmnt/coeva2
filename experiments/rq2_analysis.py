@@ -5,6 +5,27 @@ import matplotlib.pyplot as plt
 
 from src.utils.in_out import load_from_dir
 
+def run_success_rates_papernot(config_file, experiment_id, max_states = None):
+
+    parameters= {}
+    with open(config_file) as f:
+        parameters = json.load(f)
+
+    if parameters.get("experiment_path", None) is None:
+        raise KeyError()
+
+    experiment_path = parameters.get("experiment_path")
+    states_path = "{}/states/{}".format(experiment_path,experiment_id)
+    
+
+    objectives = load_from_dir(states_path)
+    
+    df = pd.DataFrame(data=objectives, columns=["respectsConstraints", "isMisclassified", "o3", "o4"])
+    df["run_id"] = experiment_id
+    df = df[["run_id","respectsConstraints", "isMisclassified", "o3", "o4" ]]
+
+    return df
+
 def run_success_rates(config_file, experiment_id, max_states = None):
 
     parameters= {}
