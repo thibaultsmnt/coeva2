@@ -193,7 +193,8 @@ class RFAttack(object):
         conf_matrix = metrics.confusion_matrix(y_true, y_pred)
         npv = conf_matrix[0,0]/(conf_matrix[0,0]+ conf_matrix[0,1])
         acc = metrics.accuracy_score(y_true,y_pred)
-        auc = metrics.roc_auc_score(y_true,y_proba[:,1])
+        auc = None
+        #auc = metrics.roc_auc_score(y_true,y_proba[:,1])
 
         return auc,acc,ppv,npv
 
