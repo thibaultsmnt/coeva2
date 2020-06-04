@@ -189,14 +189,8 @@ class RFAttack(object):
 
     def c_metrics(self, y_true, y_proba):
         y_pred = y_proba[:,1] >= self.threshold
-        ppv = metrics.precision_score(y_true, y_pred)
-        conf_matrix = metrics.confusion_matrix(y_true, y_pred)
-        npv = conf_matrix[0,0]/(conf_matrix[0,0]+ conf_matrix[0,1])
         acc = metrics.accuracy_score(y_true,y_pred)
-        auc = None
-        #auc = metrics.roc_auc_score(y_true,y_proba[:,1])
-
-        return auc,acc,ppv,npv
+        return None, acc, None , None
 
     def score_performance(self, x0, x, y0):
 

@@ -27,7 +27,7 @@ def init(argv):
             experiment_id = arg
 
         elif opt in ("-n", "--cnb"):
-            nb_constraints = arg
+            nb_constraints = int(arg)
 
         elif opt in ("-p", "--cpath"):
             path_constraints = arg
