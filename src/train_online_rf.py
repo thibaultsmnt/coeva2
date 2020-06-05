@@ -1,12 +1,14 @@
+import copy
+import multiprocessing
 import warnings
 import random
-
+import time
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 warnings.simplefilter(action="ignore", category=DeprecationWarning)
 
 import logging
-from joblib import dump
+from joblib import dump, load, Parallel, delayed
 from pathlib import Path
 
 import numpy as np
@@ -24,15 +26,18 @@ logging.basicConfig(level=logging.DEBUG)
 
 # ----- PARAMETERS
 
-output_dir = "../out/target_online_model2"
+output_dir = "../out/target_online_model_parallel"
 dataset_path = "../data/lcld/lcld_venus_sorted.csv"
 seed = 0
+date_col = "issue_d"
+offset = 0
+n_jobs = 6
 
 # ----- CONSTANT
 
-model_file_prefix = "/model"
+model_file_prefix = "/model_"
 model_file_extension = ".joblib"
-X_attack_candidate_file = "/X_attack_candidate_{}.npy"
+y_pred_file_prefix = "/y_pred_"
 scaler_file = "/scaler.pickle"
 mcc_file = "/mcc.csv"
 
@@ -52,10 +57,12 @@ Path(output_dir).mkdir(parents=True, exist_ok=True)
 random.seed(seed)
 np.random.seed(seed)
 
+
 # ----- GET DATA
 
 data = pd.read_csv(dataset_path)
-data = data.sample(frac=0.1)
+# data = data.sample(frac=0.01)
+date_index = data.columns.get_loc(date_col)
 
 # ----- DEFINE, TRAIN AND SAVE CLASSIFIER
 
@@ -63,65 +70,73 @@ model = AdaptiveRandomForest()
 
 months = data["issue_d"].unique()
 months = np.sort(months)
-classes = np.array([0, 1])
 
 mccs = []
-train_months = months[: (len(months) - 1)]
+if offset > 0:
+    model = load(
+        "{}{}{}.joblib".format(output_dir, model_file_prefix, train_months[offset - 1])
+    )
+    months = months[offset:]
+
+train_months = months[: len(months) - 1]
 
 
-def get_data_by_month(a_month):
-    month_df = data[data["issue_d"] == a_month]
-    a_y = month_df.pop("charged_off").to_numpy()
-    a_X = month_df.to_numpy()
-    return a_X, a_y
+y = data.pop("charged_off").to_numpy()
+X = data.to_numpy()
+classes = np.unique(y)
 
+if n_jobs == -1:
+    n_jobs = multiprocessing.cpu_count()
 
-for index, month in np.ndenumerate(train_months):
+for index, month in enumerate(train_months):
 
     # Training
+    t0 = time.clock()
 
-    X_train, y_train = get_data_by_month(month)
-    logging.debug("Fitting month {} ({}).".format(month, len(y_train)))
+    train_index = X[:, date_index] == month
+    X_train = X[train_index]
+    y_train = y[train_index]
+
+    logging.debug("Fitting month {} ({}).".format(month, y_train.shape[0]))
+
     model.partial_fit(X_train, y_train, classes=classes)
     dump(
         model,
-        "{}{}_{}{}".format(output_dir, model_file_prefix, month, model_file_extension),
+        "{}{}{}{}".format(output_dir, model_file_prefix, month, model_file_extension),
     )
 
-    # Testing
+    logging.debug("Time: {}s.".format(time.clock() - t0))
 
-    X_test, y_test = get_data_by_month(months[index[0] + 1])
-    y_pred_proba = model.predict_proba(X_test)
+    # Testing with the entire dataset
+    t0 = time.clock()
+    logging.debug("Testing dataset.")
+
+    splits = np.array_split(X, n_jobs)
+    model_copies = [copy.deepcopy(model) for i in range(n_jobs)]
+    y_pred_proba = Parallel(n_jobs=n_jobs)(
+        delayed(model_copies[i].predict_proba)(x) for i, x in enumerate(splits)
+    )
+    y_pred_proba = np.concatenate(y_pred_proba)
     y_pred = (y_pred_proba[:, 1] >= threshold).astype(bool)
+    np.save("{}{}{}.npy".format(output_dir, y_pred_file_prefix, month), y_pred)
 
-    # Evaluating
+    logging.debug("Time: {}s.".format(time.clock() - t0))
 
-    mcc = matthews_corrcoef(y_test, y_pred)
+    # Evaluating with month +1
+    t0 = time.clock()
+    logging.debug("Evaluating t+1.")
+
+    test_index = X[:, date_index] == months[index + 1]
+    y_test = y[test_index]
+    y_test_pred = y_pred[test_index]
+    mcc = matthews_corrcoef(y_test, y_test_pred)
     logging.debug("Mcc month +1: {}.".format(mcc))
     mccs.append(mcc)
 
-    # Save target
-
-    X_test, y_test, y_pred = Datafilter.filter_correct_prediction(
-        X_test, y_test, y_pred
-    )
-    X_test, _, _ = Datafilter.filter_by_target_class(X_test, y_test, y_pred, 1)
-    X_test = X_test[np.random.permutation(X_test.shape[0])]
-    constraints = venus_constraints.evaluate(X_test)
-    constraints_violated = constraints > 0
-    constraints_violated = constraints_violated.sum(axis=1).astype(bool)
-    X_test = X_test[(1 - constraints_violated).astype(bool)]
-    np.save(output_dir + X_attack_candidate_file.format(month), X_test)
+    logging.debug("Time: {}s.".format(time.clock() - t0))
 
 
 mccs = np.array(mccs)
 month_mcc = np.transpose(np.array([train_months, mccs]))
 month_mcc = pd.DataFrame(month_mcc, columns=["month", "mcc"])
 month_mcc.to_csv(output_dir + mcc_file)
-
-# ----- Create and save min max scaler
-y = data.pop("charged_off").to_numpy()
-X = data.to_numpy()
-scaler = MinMaxScaler()
-scaler.fit(X)
-Pickler.save_to_file(scaler, output_dir + scaler_file)
