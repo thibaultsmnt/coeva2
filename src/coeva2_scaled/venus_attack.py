@@ -54,7 +54,7 @@ def calculate_objectives(result, encoder, initial_state, threshold, model):
     CVs = np.array(list(map(lambda x: x.CV[0], result.pop)))
     Xs = np.array(list(map(lambda x: x.X, result.pop))).astype(np.float64)
     Xs_ml = encoder.from_genetic_to_ml(initial_state, Xs).astype(np.float64)
-    respectsConstraints = (evaluate(Xs_ml, encoder).mean(axis=1) == 0).astype(np.int64)
+    respectsConstraints = (evaluate(Xs_ml, encoder).mean(axis=1) <= 0).astype(np.int64)
     isMisclassified = np.array(model.predict_proba(Xs_ml)[:, 1] < threshold).astype(
         np.int64
     )
