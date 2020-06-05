@@ -31,7 +31,7 @@ dataset_path = "../data/lcld/lcld_venus_sorted.csv"
 seed = 0
 date_col = "issue_d"
 offset = 0
-n_jobs = 6
+n_jobs = -1
 
 # ----- CONSTANT
 

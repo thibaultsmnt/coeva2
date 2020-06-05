@@ -2,9 +2,9 @@
 
 #SBATCH -o %x_%j.out
 #SBATCH -N 1
-#SBATCH -n 1
+#SBATCH -n 28
 #SBATCH -p batch
-#SBATCH --time=0-10:00:00
+#SBATCH --time=0-12:00:00
 #SBATCH --qos=qos-besteffort
 #SBATCH -J TRAIN-ONLINE-RF
 #SBATCH --mail-type=end,fail
