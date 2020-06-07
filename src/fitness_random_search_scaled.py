@@ -30,12 +30,12 @@ n_generation = 2500
 pop_size = 160
 n_offsprings = 80
 
-n_random_parameters = 3
+n_random_parameters = 24
 n_initial_state = 1000
 n_repetition = 1
 
 weight_min = 1
-weight_max = 1000
+weight_max = 100
 
 # ----- CONSTANTS
 
