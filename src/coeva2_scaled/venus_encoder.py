@@ -26,7 +26,7 @@ class VenusEncoder:
         f1_scaler.fit([[np.log(self.LOG_ALPHA)], [np.log(1)]])
         self.f1_scaler = f1_scaler
         f2_scaler = MinMaxScaler(feature_range=(0, 1))
-        f2_scaler.fit([[0], [np.sqrt(15)]])
+        f2_scaler.fit([[0], [np.sqrt(47)]])
         self.f2_scaler = f2_scaler
         for i, encoder in enumerate(self.one_hot_encoders):
             possible_values = np.arange(self.one_hot_size[i])
