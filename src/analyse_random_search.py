@@ -7,8 +7,9 @@ pd.set_option("display.max_columns", 500)
 
 # ----- PARAMETERS
 
-input_dir = "../out/venus_attacks/coeva2_all_random_fitness"
+input_dir = "../out/venus_attacks/coeva2_all_random_fitness_scaled_tol"
 nsga2_file = "../out/venus_attacks/nsga2_all/nsga2.csv"
+original_file = "../out/venus_attacks/coeva2_original/original.csv"
 n_objective = 4
 n_best = 10
 
@@ -25,7 +26,7 @@ for filename in all_files:
 
 df = pd.concat(li, axis=0, ignore_index=True)
 
-original_parameter = df[df["weight_4"] == 1000]
+original_parameter = pd.read_csv(original_file)
 
 nsga2 = pd.read_csv(nsga2_file)
 
@@ -43,6 +44,8 @@ plt.show()
 df.plot(y=objectives, use_index=True)
 plt.show()
 
+print("----- NSGA2")
+print(nsga2)
 df = df.sort_values(by=["objective_4"], ascending=[0])
 print("--- {} best parameters and results.".format(n_best))
 print(df.head(n_best))
