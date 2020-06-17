@@ -55,9 +55,7 @@ def evaluate(x_ml, encoder):
     ratio[np.isnan(ratio)] = -1
     g410 = np.absolute(x_ml[:, 25] - ratio)
 
-    constraints = (
-        anp.column_stack([g41, g42, g43, g44, g45, g46, g47, g48, g49, g410]) 
-    )
+    constraints = anp.column_stack([g41, g42, g43, g44, g45, g46, g47, g48, g49, g410])
     constraints[constraints <= tol] = 0.0
     scaled_constraints = encoder.constraint_scaler.transform(constraints)
 
