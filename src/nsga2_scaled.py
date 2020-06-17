@@ -30,7 +30,7 @@ n_generation = 2500
 pop_size = 160
 n_offsprings = 80
 
-n_initial_state = 10
+n_initial_state = 1000
 n_repetition = 1
 
 
