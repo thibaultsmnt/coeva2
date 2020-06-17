@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.DEBUG)
 # ----- PARAMETERS
 
 input_dir = "../out/target_model"
-output_dir = "../out/venus_attacks/nsga2_all"
+output_dir = "../out/venus_attacks/nsga2_all_scaled"
 seed = 0
 threshold = 0.24
 n_jobs = -1
