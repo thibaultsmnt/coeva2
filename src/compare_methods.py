@@ -6,10 +6,11 @@ import numpy as np
 
 input_dirs = [
     "../out/venus_attacks/coeva2_all_random_fitness",
-    "../out/venus_attacks/coeva2_all_random_fitness_scaled",
+    # "../out/venus_attacks/coeva2_all_random_fitness_scaled",
     "../out/venus_attacks/coeva2_all_random_fitness_scaled_tol",
     "../out/venus_attacks/coeva2_original",
     "../out/venus_attacks/nsga2_all",
+    "../out/venus_attacks/nsga2_all_scaled",
 ]
 output_file = "../out/venus_attacks/bests.csv"
 n_ojectives = 4
