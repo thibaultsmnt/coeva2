@@ -10,11 +10,9 @@ class VenusEncoder:
         self.one_hot_position = np.array([14])
         self.one_hot_size = np.array([14])
         self.one_hot_encoders = [OneHotEncoder(sparse=False)]
-        features = pd.read_csv("../data/lcld/lcld_venus_dtypes.csv", low_memory=False)
+        features = pd.read_csv("../data/lcld/datatypes.csv", low_memory=False)
         self.features = features.drop(features.tail(1).index)
-        constraints = pd.read_csv(
-            "../data/lcld/lcld_venus_constraints.csv", low_memory=False
-        )
+        constraints = pd.read_csv("../data/lcld/constraints.csv", low_memory=False)
         constraint_scaler = MinMaxScaler(feature_range=(0, 1))
         vector = [constraints["min"], constraints["max"]]
         constraint_scaler.fit(vector)

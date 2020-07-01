@@ -1,0 +1,9 @@
+{
+  "threshold": 0.24,
+  "paths": {
+    "dataset": "./data/lcld/dataset.csv",
+    "dataset_sorted": "./data/lcld/dataset_sorted.csv",
+    "datatypes": "./data/lcld/datatypes.csv",
+    "constraints": "./data/lcld/constraints.csv"
+  }
+}
