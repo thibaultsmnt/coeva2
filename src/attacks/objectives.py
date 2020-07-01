@@ -2,10 +2,10 @@ from src.attacks.venus_constraints import evaluate
 import numpy as np
 
 
-def calculate_objectives(result, encoder, initial_state, threshold, model):
+def calculate_objectives(result, encoder, threshold, model):
 
     Xs = np.array(list(map(lambda x: x.X, result.pop))).astype(np.float64)
-    Xs_ml = encoder.from_genetic_to_ml(initial_state, Xs).astype(np.float64)
+    Xs_ml = encoder.from_genetic_to_ml(result.initial_state, Xs).astype(np.float64)
     respectsConstraints = (
         encoder.constraint_scaler.transform(evaluate(Xs_ml)).mean(axis=1) <= 0
     ).astype(np.int64)
@@ -21,3 +21,12 @@ def calculate_objectives(result, encoder, initial_state, threshold, model):
     objectives = (objectives > 0).astype(np.int64)
 
     return objectives
+
+
+def calculate_success_rates(results, encoder, threshold, model):
+
+    objectives = np.array(
+        [calculate_objectives(result, encoder, threshold, model) for result in results]
+    )
+    success_rates = np.apply_along_axis(lambda x: x.sum() / x.shape[0], 0, objectives)
+    return success_rates

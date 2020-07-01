@@ -1,29 +1,26 @@
 from pymoo.optimize import minimize
 
 from .venus_attack_generator import create_attack
-import numpy as np
 import copy
-from src.attacks.venus_constraints import evaluate
 
 
 def attack(
     index,
     initial_state,
-    weight,
     model,
     scaler,
     encoder,
     n_generation,
-    n_offsprings,
     pop_size,
-    threshold,
+    n_offsprings,
+    weight,
 ):
     # Copying shared resources
 
-    weight = copy.deepcopy(weight)
     model = copy.deepcopy(model)
     scaler = copy.deepcopy(scaler)
     encoder = copy.deepcopy(encoder)
+    weight = copy.deepcopy(weight)
 
     # Create attack
 

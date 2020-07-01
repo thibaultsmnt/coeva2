@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import pickle
 import json
@@ -83,3 +85,13 @@ def json_from_dir(input_dir, handler=None):
             else:
                 obj_list.append(handler(file_i, obj))
     return obj_list
+
+
+def get_parameters():
+
+    if len(sys.argv) > 1:
+        config_path = sys.argv[1]
+    else:
+        config_path = "../config/default.json"
+
+    return json_from_file(config_path)

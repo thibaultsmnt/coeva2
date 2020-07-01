@@ -24,10 +24,10 @@ class VenusProblem(Problem):
 
         # ----- PARAMETERS
 
-        alpha = self.weight[0]
-        beta = self.weight[1]
-        gamma = self.weight[2]
-        delta = self.weight[3]
+        alpha = self.weight["alpha"]
+        beta = self.weight["beta"]
+        gamma = self.weight["gamma"]
+        delta = self.weight["delta"]
 
         x_ml = self.encoder.from_genetic_to_ml(self.original, x).astype("float64")
         x_ml_mm = self.scaler.transform(x_ml)

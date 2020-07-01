@@ -1,5 +1,6 @@
 import numpy as np
 import autograd.numpy as anp
+import logging
 
 
 def evaluate(x_ml):
@@ -63,3 +64,11 @@ def evaluate(x_ml):
 
 def _date_feature_to_month(feature):
     return np.floor(feature / 100) * 12 + (feature % 100)
+
+
+def respect_constraints_or_exit(X):
+    constraints = evaluate(X)
+    constraints_violated = (constraints > 0).sum()
+    if constraints_violated > 0:
+        logging.error("Constraints violated {} time(s).".format(constraints_violated))
+        exit(1)
