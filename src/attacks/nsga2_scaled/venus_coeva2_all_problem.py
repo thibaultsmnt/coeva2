@@ -3,7 +3,7 @@ import copy
 from pymoo.model.problem import Problem
 import numpy as np
 
-from . import venus_constraints
+from .. import venus_constraints
 
 
 class VenusProblem(Problem):
@@ -14,6 +14,7 @@ class VenusProblem(Problem):
         self.scaler = scaler
         self.original = initial_state
         self.original_mm = self.scaler.transform([initial_state])[0]
+        self.scale_objectives = scale_objectives
         super().__init__(n_var=15, n_obj=3, n_constr=10, xl=min_max[0], xu=min_max[1])
 
     def _evaluate(self, x, out, *args, **kwargs):
@@ -39,7 +40,7 @@ class VenusProblem(Problem):
 
         # f4 Domain constraints
 
-        constraints = venus_constraints.evaluate(x_ml, self.encoder)
+        constraints = venus_constraints.evaluate(x_ml)
 
         if self.scale_objectives:
             f1 = self.encoder.f1_scaler.transform(f1.reshape(-1, 1))[:, 0]
