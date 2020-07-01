@@ -2,7 +2,7 @@ import numpy as np
 import autograd.numpy as anp
 
 
-def evaluate(x_ml, encoder):
+def evaluate(x_ml):
 
     # ----- PARAMETERS
 
@@ -57,9 +57,8 @@ def evaluate(x_ml, encoder):
 
     constraints = anp.column_stack([g41, g42, g43, g44, g45, g46, g47, g48, g49, g410])
     constraints[constraints <= tol] = 0.0
-    scaled_constraints = encoder.constraint_scaler.transform(constraints)
 
-    return scaled_constraints
+    return constraints
 
 
 def _date_feature_to_month(feature):
