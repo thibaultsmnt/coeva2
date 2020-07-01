@@ -8,7 +8,7 @@ from . import venus_constraints
 
 
 class VenusProblem(Problem):
-    def __init__(self, initial_state, model, encoder, scaler):
+    def __init__(self, initial_state, model, encoder, scaler, scale_objectives=True):
         min_max = encoder.get_min_max_genetic()
         self.model = model
         self.encoder = encoder
@@ -28,12 +28,10 @@ class VenusProblem(Problem):
         f1 = self.model.predict_proba(x_ml)[:, 1]
         f1[f1 < self.encoder.LOG_ALPHA] = self.encoder.LOG_ALPHA
         f1 = np.log(f1)
-        f1 = self.encoder.f1_scaler.transform(f1.reshape(-1, 1))[:, 0]
 
         # f2 Minimize perturbation
         l2_distance = np.linalg.norm(x_ml_mm[:, 1:] - self.original_mm[1:], axis=1)
         f2 = l2_distance
-        f2 = self.encoder.f2_scaler.transform(f2.reshape(-1, 1))[:, 0]
 
         # f3 Maximize amount (f3 don't need scaler if amount > 1)
         amount = copy.deepcopy(x_ml[:, 0])
@@ -44,16 +42,10 @@ class VenusProblem(Problem):
 
         constraints = venus_constraints.evaluate(x_ml, self.encoder)
 
-        if (
-            (f1 < 0).sum() > 0
-            or (f1 > 1).sum() > 0
-            or (f2 < 0).sum() > 0
-            or (f2 > 1).sum() > 0
-            or (f3 < 0).sum() > 0
-            or (f3 > 1).sum() > 0
-        ):
-            print("Not scaled")
-            exit(1)
+        if self.scale_objectives:
+            f1 = self.encoder.f1_scaler.transform(f1.reshape(-1, 1))[:, 0]
+            f2 = self.encoder.f2_scaler.transform(f2.reshape(-1, 1))[:, 0]
+            constraints = self.encoder.constraint_scaler.transform(constraints)
 
         out["F"] = np.column_stack([f1, f2, f3])
         out["G"] = constraints
