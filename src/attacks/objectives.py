@@ -1,4 +1,4 @@
-from src.attacks.venus_constraints import evaluate
+from .venus_constraints import evaluate
 import numpy as np
 
 

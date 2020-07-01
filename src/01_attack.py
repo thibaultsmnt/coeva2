@@ -17,7 +17,7 @@ def run(
     MODEL_PATH=config["paths"]["model"],
     SCALER_PATH=config["paths"]["scaler"],
     X_ATTACK_CANDIDATES_PATH=config["paths"]["x_candidates"],
-    ATTACK_RESULTS_PATH=config["paths"]["results"],
+    ATTACK_RESULTS_PATH=config["paths"]["attack_results"],
     N_GEN=config["n_gen"],
     POP_SIZE=config["pop_size"],
     N_OFFSPRINGS=config["n_offsprings"],

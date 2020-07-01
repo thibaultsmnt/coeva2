@@ -3,7 +3,8 @@
     "scaler": "../out/data_scaler.pickle",
     "model": "../out/static/model.joblib",
     "x_candidates": "../out/static/x_attack_candidate.npy",
-    "results": "../out/attacks/original_coeva2/results.pickle"
+    "attack_results": "../out/attacks/original_coeva2/results.pickle",
+    "objectives": "../out/attacks/original_coeva2/objectives.csv"
   },
   "algorithm": "coeva2",
   "weights": {
@@ -12,11 +13,11 @@
     "gamma": 100,
     "delta": 1000
   },
-  "n_gen": 10000,
+  "n_gen": 100,
   "pop_size": 40,
   "n_offsprings": 20,
   "random_seed": 0,
-  "n_initial_state": 1000,
+  "n_initial_state": 10,
   "n_repetition": 1,
   "threshold": 0.24
 }
