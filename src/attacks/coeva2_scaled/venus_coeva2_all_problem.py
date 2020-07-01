@@ -2,24 +2,31 @@ import copy
 
 from pymoo.model.problem import Problem
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
 
 from . import venus_constraints
 
 
 class VenusProblem(Problem):
-    def __init__(self, initial_state, model, encoder, scaler, scale_objectives=True):
+    def __init__(
+        self, initial_state, weight, model, encoder, scaler, scale_objectives=True
+    ):
         min_max = encoder.get_min_max_genetic()
+        self.weight = weight
         self.model = model
         self.encoder = encoder
         self.scaler = scaler
         self.original = initial_state
         self.original_mm = self.scaler.transform([initial_state])[0]
-        super().__init__(n_var=15, n_obj=3, n_constr=10, xl=min_max[0], xu=min_max[1])
+        super().__init__(n_var=15, n_obj=1, n_constr=10, xl=min_max[0], xu=min_max[1])
 
     def _evaluate(self, x, out, *args, **kwargs):
 
         # ----- PARAMETERS
+
+        alpha = self.weight[0]
+        beta = self.weight[1]
+        gamma = self.weight[2]
+        delta = self.weight[3]
 
         x_ml = self.encoder.from_genetic_to_ml(self.original, x).astype("float64")
         x_ml_mm = self.scaler.transform(x_ml)
@@ -47,5 +54,5 @@ class VenusProblem(Problem):
             f2 = self.encoder.f2_scaler.transform(f2.reshape(-1, 1))[:, 0]
             constraints = self.encoder.constraint_scaler.transform(constraints)
 
-        out["F"] = np.column_stack([f1, f2, f3])
-        out["G"] = constraints
+        out["F"] = alpha * f1 + beta * f2 + gamma * f3
+        out["G"] = constraints * delta
