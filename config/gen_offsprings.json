@@ -4,11 +4,10 @@
     "model": "../out/static/model.joblib",
     "x_candidates": "../out/static/x_attack_candidate.npy",
     "attack_results": "../out/attacks/nsga2/results.pickle",
-    "objectives": "../out/attacks/nsga2/objectives.csv"
+    "objectives": "../out/attacks/gen_offsprings/objectives.csv"
   },
   "dirs": {
-    "attack_results": "../out/attacks/gen_offsprings",
-    "objectives": "../out/attacks/gen_offsprings"
+    "attack_results": "../out/attacks/gen_offsprings"
   },
   "algorithm": "nsga2",
   "weights": 0,
