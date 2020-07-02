@@ -10,7 +10,7 @@ from .venus_coeva2_all_problem import VenusProblem
 
 
 def create_attack(
-    initial_state, model, scaler, encoder, n_generation, n_offsprings, pop_size
+    initial_state, model, scaler, encoder, n_gen, pop_size, n_offsprings,
 ):
 
     problem = VenusProblem(initial_state, model, encoder, scaler)
@@ -66,6 +66,6 @@ def create_attack(
         return_least_infeasible=True,
     )
 
-    termination = get_termination("n_gen", n_generation)
+    termination = get_termination("n_gen", n_gen)
 
     return problem, algorithm, termination

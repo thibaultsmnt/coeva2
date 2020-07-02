@@ -6,15 +6,7 @@ import copy
 
 
 def attack(
-    index,
-    initial_state,
-    model,
-    scaler,
-    encoder,
-    n_generation,
-    n_offsprings,
-    pop_size,
-    threshold,
+    index, initial_state, model, scaler, encoder, n_gen, pop_size, n_offsprings,
 ):
     # Copying shared resources
 
@@ -25,7 +17,7 @@ def attack(
     # Create attack
 
     problem, algorithm, termination = create_attack(
-        initial_state, model, scaler, encoder, n_generation, n_offsprings, pop_size,
+        initial_state, model, scaler, encoder, n_gen, pop_size, n_offsprings,
     )
 
     # Execute attack
