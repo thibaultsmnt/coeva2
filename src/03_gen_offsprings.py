@@ -1,9 +1,10 @@
 import warnings
 
+warnings.simplefilter(action="ignore", category=FutureWarning)
+
 from attacks import attack_multiple_input
 from attacks.result_process import EfficientResult
 
-warnings.simplefilter(action="ignore", category=FutureWarning)
 import random
 import logging
 from pathlib import Path
@@ -16,26 +17,9 @@ from utils import Pickler, in_out
 from attacks import venus_constraints
 from attacks.venus_encoder import VenusEncoder
 
+logging.getLogger().setLevel(logging.INFO)
+
 config = in_out.get_parameters()
-
-
-# ----- CONSTANT
-
-OUT_COLUMNS = [
-    "n_gen",
-    "pop_size",
-    "n_offsprings",
-    "objective_1",
-    "objective_2",
-    "objective_3",
-    "objective_4",
-]
-
-# ----- Load and create necessary objects
-
-
-# Copy the initial states n_repetition times
-X_initial_states = np.repeat(X_initial_states, n_repetition, axis=0)
 
 
 def run(
@@ -48,6 +32,7 @@ def run(
     BUDGET=config["budget"],
     N_REPETITION=config["n_repetition"],
     ALGORITHM=config["algorithm"],
+    N_INITIAL_STATE=config["n_initial_state"],
 ):
 
     Path(ATTACK_RESULTS_DIR).mkdir(parents=True, exist_ok=True)
@@ -73,7 +58,7 @@ def run(
     X_initial_states = np.repeat(X_initial_states, N_REPETITION, axis=0)
 
     list_n_offsprings = np.array(LIST_N_OFFSPRING)
-    list_n_generation = BUDGET / list_n_offsprings
+    list_n_generation = (BUDGET / list_n_offsprings).astype(np.int)
     list_pop_size = list_n_offsprings * 2
 
     for i in range(len(list_n_offsprings)):
@@ -105,3 +90,7 @@ def run(
         Pickler.save_to_file(
             efficient_results, "{}/results_{}.pickle".format(ATTACK_RESULTS_DIR, n_gen)
         )
+
+
+if __name__ == "__main__":
+    run()
