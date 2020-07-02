@@ -47,7 +47,7 @@ def run(
     random.seed(RANDOM_SEED)
     np.random.seed(RANDOM_SEED)
 
-    # Copy the initial states n_repetition times
+    # ----- Copy the initial states n_repetition times
     X_initial_states = np.repeat(X_initial_states, N_REPETITION, axis=0)
 
     # Initial state loop (threaded)
