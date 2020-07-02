@@ -17,7 +17,7 @@ def attack(
 ):
     if attack_type == "coeva2":
         attack = coeva2_attack
-    elif attack == "nsga2":
+    elif attack_type == "nsga2":
         attack = nsga2_attack
 
     results = Parallel(n_jobs=-1)(
