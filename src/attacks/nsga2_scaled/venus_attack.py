@@ -8,6 +8,9 @@ import copy
 def attack(
     index, initial_state, model, scaler, encoder, n_gen, pop_size, n_offsprings,
 ):
+
+    print("Attack #{}.".format(index))
+
     # Copying shared resources
 
     model = copy.deepcopy(model)
