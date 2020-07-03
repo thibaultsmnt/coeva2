@@ -13,11 +13,11 @@
     "gamma": 100,
     "delta": 1000
   },
-  "n_gen": 10000,
-  "pop_size": 40,
-  "n_offsprings": 20,
+  "n_gen": 2500,
+  "pop_size": 160,
+  "n_offsprings": 80,
   "random_seed": 0,
-  "n_initial_state": 100,
+  "n_initial_state": 1000,
   "n_repetition": 1,
   "threshold": 0.24
 }
