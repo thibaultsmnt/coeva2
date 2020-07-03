@@ -7,5 +7,7 @@
   "random_seed": 0,
   "n_initial_state": 10,
   "n_repetition": 1000,
-  "threshold": 0.24
+  "threshold": 0.24,
+  "initial_state_offset": 0
+
 }

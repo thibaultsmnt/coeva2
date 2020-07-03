@@ -26,6 +26,7 @@ def run(
     N_INITIAL_STATE=config["n_initial_state"],
     N_REPETITION=config["n_repetition"],
     ALGORITHM=config["algorithm"],
+    INITIAL_STATE_OFFSET=config["initial_state_offset"],
 ):
 
     Path(ATTACK_RESULTS_PATH).parent.mkdir(parents=True, exist_ok=True)
@@ -37,7 +38,9 @@ def run(
     X_initial_states = np.load(X_ATTACK_CANDIDATES_PATH)
     scaler = Pickler.load_from_file(SCALER_PATH)
     encoder = VenusEncoder()
-    X_initial_states = X_initial_states[:N_INITIAL_STATE]
+    X_initial_states = X_initial_states[
+        INITIAL_STATE_OFFSET : INITIAL_STATE_OFFSET + N_INITIAL_STATE
+    ]
 
     # ----- Check constraints
 
