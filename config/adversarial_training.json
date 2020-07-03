@@ -1,8 +1,7 @@
 {
   "threshold": 0.24,
   "paths": {
-    "dataset": "../data/lcld/dataset.csv",
-    "attack_results": "../out/static/x_attack_candidate.npy",
+    "attack_results": "../out/attacks/original_coeva2/results.pickle",
     "model": "../out/static/model.joblib",
     "resistant_model": "../out/static/resistant_model.joblib"
   },
