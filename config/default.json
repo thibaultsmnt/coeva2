@@ -16,13 +16,13 @@
     "nsga2": "../out/attacks/nsga2"
   },
   "model_parameters":{
-    "n_estimators": 4,
+    "n_estimators": 125,
     "min_samples_split": 6,
     "min_samples_leaf": 2,
     "max_depth": 10,
     "bootstrap": true
   },
   "target": "charged_off",
-  "n_initial_state": 1000,
+  "n_initial_state": 1000
 
 }
