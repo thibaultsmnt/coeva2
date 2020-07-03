@@ -10,6 +10,7 @@
     "static_x_candidates": "../out/static/x_attack_candidate.npy"
   },
   "dirs": {
+    "train_test_data": "../out/static",
     "original_attack": "../out/attacks/paper_coeva2",
     "gen_offspring": "../out/attacks/gen_offspring",
     "random_search": "../out/attacks/random_search",

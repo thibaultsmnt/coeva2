@@ -5,5 +5,8 @@
     "attack_results": "../out/static/x_attack_candidate.npy",
     "model": "../out/static/model.joblib",
     "resistant_model": "../out/static/resistant_model.joblib"
+  },
+  "dirs": {
+    "train_test_data": "../out/static"
   }
 }

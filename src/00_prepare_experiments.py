@@ -28,6 +28,7 @@ def run(
     TARGET=config["target"],
     MODEL_PARAMETERS=config["model_parameters"],
     THRESHOLD=config["threshold"],
+    TRAIN_TEST_DATA_DIR=config["dirs"]["train_test_data"],
 ):
     Path(MODEL_PATH).parent.mkdir(parents=True, exist_ok=True)
 
@@ -35,6 +36,10 @@ def run(
     y = data.pop(TARGET).to_numpy()
     X = data.to_numpy()
     X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
+    np.save("{}/X_train.npy".format(TRAIN_TEST_DATA_DIR), X_train)
+    np.save("{}/X_test.npy".format(TRAIN_TEST_DATA_DIR), X_test)
+    np.save("{}/y_train.npy".format(TRAIN_TEST_DATA_DIR), y_train)
+    np.save("{}/y_test.npy".format(TRAIN_TEST_DATA_DIR), y_test)
 
     # ----- DEFINE, TRAIN AND SAVE CLASSIFIER
 
