@@ -33,6 +33,7 @@ def run(
     N_REPETITION=config["n_repetition"],
     ALGORITHM=config["algorithm"],
     N_INITIAL_STATE=config["n_initial_state"],
+    WEIGHT=config["weights"],
 ):
 
     Path(ATTACK_RESULTS_DIR).mkdir(parents=True, exist_ok=True)
@@ -81,7 +82,7 @@ def run(
             pop_size,
             n_offsprings,
             X_initial_states,
-            weight=0,
+            weight=WEIGHT,
             attack_type=ALGORITHM,
         )
 
