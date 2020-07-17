@@ -4,7 +4,7 @@
 #SBATCH -N 1
 #SBATCH -n 28
 #SBATCH -p batch
-#SBATCH --time=0-0:3:00
+#SBATCH --time=0-3:00:00
 #SBATCH --qos=qos-besteffort
 #SBATCH -J PREPARE
 #SBATCH --mail-type=end,fail
