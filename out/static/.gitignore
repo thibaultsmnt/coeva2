@@ -2,3 +2,5 @@
 /model.joblib
 /nsga2_resistant_model.joblib
 /x_attack_candidate.npy
+/surrogate.model
+/x_surrogate_candidate.npy
