@@ -9,3 +9,5 @@ src/advm/advm.egg-info/
 *.DS_Store
 src/playground.py
 .venv
+
+.vscode/
