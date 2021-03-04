@@ -112,7 +112,7 @@ class Coeva2:
         algorithm = self._create_algorithm()
         classifier = deepcopy(self._classifier)
         constraints = deepcopy(self._constraints)
-        encoder = deepcopy(self._encoder)
+        encoder = get_encoder_from_constraints(self._constraints, x)
 
         problem = Coeva2Problem(
             x_initial_state=x,
